@@ -83,13 +83,15 @@ If the user says "whatever you think is best", provide your recommendation and g
 
 ## Phase 4: Architecture Design
 
-**Goal**: Design a decisive, complete implementation blueprint
+**Goal**: Validate a decisive implementation blueprint through independent consensus
 
 **Actions**:
-1. Launch **1** code-architect agent. Include the full contents of `.feature-dev-context.md` in the agent's prompt so it has all explorer findings and file contents pre-loaded — it should not need to re-read files already provided
-2. Review the blueprint and form your opinion on whether it fits the feature's scope and constraints
-3. Present to user: the architect's blueprint with rationale, key decisions made, and any concerns you have
-4. **Ask user to confirm the blueprint or redirect** before proceeding to implementation
+1. Launch **2** code-architect agents in parallel. Give both the identical prompt and the full contents of `.feature-dev-context.md` — they should not need to re-read files already provided
+2. Compare the two blueprints:
+   - **Where they agree**: treat as high-confidence consensus — present as the decided approach
+   - **Where they diverge**: present both options to the user with each architect's rationale, and ask the user to decide
+3. Present to user: the consensus blueprint, any divergence points requiring a decision, and your own assessment of fit for the feature's scope
+4. **Wait for user to confirm or resolve any divergence** before proceeding to implementation
 
 ---
 
