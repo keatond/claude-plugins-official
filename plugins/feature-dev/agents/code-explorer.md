@@ -2,7 +2,7 @@
 name: code-explorer
 description: Deeply analyzes existing codebase features by tracing execution paths, mapping architecture layers, understanding patterns and abstractions, and documenting dependencies to inform new development
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
-model: sonnet
+model: haiku
 color: yellow
 ---
 
@@ -38,14 +38,15 @@ Provide a complete understanding of how a specific feature works by tracing its 
 
 ## Output Guidance
 
-Provide a comprehensive analysis that helps developers understand the feature deeply enough to modify or extend it. Include:
+Provide a comprehensive analysis that helps developers understand the feature deeply enough to modify or extend it. Structure your response with these exact sections in this order:
 
-- Entry points with file:line references
-- Step-by-step execution flow with data transformations
-- Key components and their responsibilities
-- Architecture insights: patterns, layers, design decisions
-- Dependencies (external and internal)
-- Observations about strengths, issues, or opportunities
-- List of files that you think are absolutely essential to get an understanding of the topic in question
+### ## Key Files
+List every file that is absolutely essential to understand the topic — one absolute path per line. This list is used to load file contents into the next agent's context, so be complete and precise.
 
-Structure your response for maximum clarity and usefulness. Always include specific file paths and line numbers.
+### ## Architecture Summary
+Prose description of: entry points with file:line references, step-by-step execution flow with data transformations, key components and their responsibilities, abstraction layers, and dependencies (external and internal).
+
+### ## Patterns Found
+Prose description of: design patterns in use, coding conventions, error handling approaches, testing patterns, and any observations about strengths, issues, or improvement opportunities.
+
+Always include specific file paths and line numbers throughout.

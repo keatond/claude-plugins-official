@@ -38,19 +38,30 @@ Initial request: $ARGUMENTS
 **Goal**: Understand relevant existing code and patterns at both high and low levels
 
 **Actions**:
-1. Launch 2-3 code-explorer agents in parallel. Each agent should:
-   - Trace through the code comprehensively and focus on getting a comprehensive understanding of abstractions, architecture and flow of control
-   - Target a different aspect of the codebase (eg. similar features, high level understanding, architectural understanding, user experience, etc)
-   - Include a list of 5-10 key files to read
+1. Launch **1** code-explorer agent. The agent should:
+   - Trace through the code comprehensively, covering: similar features, high-level architecture, abstractions, flow of control, UI/testing patterns, and extension points relevant to the feature
+   - Return output in the required sections: `## Key Files`, `## Architecture Summary`, `## Patterns Found`
 
-   **Example agent prompts**:
-   - "Find features similar to [feature] and trace through their implementation comprehensively"
-   - "Map the architecture and abstractions for [feature area], tracing through the code comprehensively"
-   - "Analyze the current implementation of [existing feature/area], tracing through the code comprehensively"
-   - "Identify UI patterns, testing approaches, or extension points relevant to [feature]"
+2. Once the agent returns, read every file listed in its `## Key Files` section to build deep understanding
 
-2. Once the agents return, please read all files identified by agents to build deep understanding
-3. Present comprehensive summary of findings and patterns discovered
+3. Write `.feature-dev-context.md` to the project root with this structure:
+   ```
+   # Feature Dev Context
+   
+   ## Explorer Output
+   [paste the full explorer agent output here]
+   
+   ## File Contents
+   
+   ### <filepath>
+   [full file contents]
+   
+   ### <filepath>
+   [full file contents]
+   ...
+   ```
+
+4. Present comprehensive summary of findings and patterns discovered
 
 ---
 
@@ -72,13 +83,13 @@ If the user says "whatever you think is best", provide your recommendation and g
 
 ## Phase 4: Architecture Design
 
-**Goal**: Design multiple implementation approaches with different trade-offs
+**Goal**: Design a decisive, complete implementation blueprint
 
 **Actions**:
-1. Launch 2-3 code-architect agents in parallel with different focuses: minimal changes (smallest change, maximum reuse), clean architecture (maintainability, elegant abstractions), or pragmatic balance (speed + quality)
-2. Review all approaches and form your opinion on which fits best for this specific task (consider: small fix vs large feature, urgency, complexity, team context)
-3. Present to user: brief summary of each approach, trade-offs comparison, **your recommendation with reasoning**, concrete implementation differences
-4. **Ask user which approach they prefer**
+1. Launch **1** code-architect agent. Include the full contents of `.feature-dev-context.md` in the agent's prompt so it has all explorer findings and file contents pre-loaded — it should not need to re-read files already provided
+2. Review the blueprint and form your opinion on whether it fits the feature's scope and constraints
+3. Present to user: the architect's blueprint with rationale, key decisions made, and any concerns you have
+4. **Ask user to confirm the blueprint or redirect** before proceeding to implementation
 
 ---
 
@@ -103,8 +114,10 @@ If the user says "whatever you think is best", provide your recommendation and g
 **Goal**: Ensure code is simple, DRY, elegant, easy to read, and functionally correct
 
 **Actions**:
-1. Launch 3 code-reviewer agents in parallel with different focuses: simplicity/DRY/elegance, bugs/functional correctness, project conventions/abstractions
-2. Consolidate findings and identify highest severity issues that you recommend fixing
+1. Launch **2** code-reviewer agents in parallel. Include `.feature-dev-context.md` in each agent's prompt for project context, plus the current `git diff` output so they have the changes pre-loaded:
+   - **Reviewer 1**: focus on simplicity/DRY/elegance and bugs/functional correctness
+   - **Reviewer 2**: focus on project conventions/abstractions and security vulnerabilities
+2. Consolidate findings from both reviewers and identify highest severity issues that you recommend fixing
 3. **Present findings to user and ask what they want to do** (fix now, fix later, or proceed as-is)
 4. Address issues based on user decision
 
@@ -121,5 +134,6 @@ If the user says "whatever you think is best", provide your recommendation and g
    - Key decisions made
    - Files modified
    - Suggested next steps
+3. Delete `.feature-dev-context.md` from the project root if it exists
 
 ---
