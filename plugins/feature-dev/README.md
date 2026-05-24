@@ -1,7 +1,6 @@
 # Feature Development Plugin
 
 A comprehensive, structured workflow for feature development with specialized agents for codebase exploration, architecture design, and quality review.
-<!-- hook-test -->
 
 ## Overview
 
